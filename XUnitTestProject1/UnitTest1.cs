@@ -2,7 +2,7 @@ using System;
 using Xunit;
 using WebApiDemo.Controllers;
 
-namespace XUnitTestProject1
+namespace WebApiDemoTest
 {
     public class UnitTest1
     {
