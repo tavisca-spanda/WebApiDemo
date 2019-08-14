@@ -3,7 +3,7 @@ pipeline {
     agent any
 
     parameters{
-        string(name: 'GIT_SOURCE_PATH', defaultValue: "https://github.com/tavisca-spanda/MyWebserver.git")
+        string(name: 'GIT_SOURCE_PATH', defaultValue: "https://github.com/tavisca-spanda/WebApiDemo.git")
         string(name: 'TEST_PATH', defaultValue: "XUnitTestProject1/WebApiDemoTest.csproj")
         string(name: 'FILE_SOURCE_PATH', defaultValue: "WebApiDemo.sln")
     }
