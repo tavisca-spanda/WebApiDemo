@@ -6,6 +6,7 @@ pipeline {
         string(name: 'GIT_SOURCE_PATH', defaultValue: "https://github.com/tavisca-spanda/WebApiDemo.git")
         string(name: 'TEST_PATH', defaultValue: "XUnitTestProject1/WebApiDemoTest.csproj")
         string(name: 'FILE_SOURCE_PATH', defaultValue: "WebApiDemo.sln")
+        choice(name: 'JOB', choices: ['Build', 'Test'], description: 'Providing Choices' )
     }
     stages {
         
@@ -16,7 +17,13 @@ pipeline {
             }
         }
         stage('--test--') {
+
+            when 
+		    { 
+			    expression { params.JOB == 'Test'}
+		    }
             steps {
+                sh 'dotnet build ${SOLUTION_PATH} -p:Configuration=release -v:n'
                 sh "dotnet test ${TEST_PATH}"
             }
         }
