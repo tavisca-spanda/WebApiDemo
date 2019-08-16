@@ -27,5 +27,24 @@ pipeline {
                 sh "dotnet test ${TEST_PATH}"
             }
         }
+
+        stage('---Publish---')
+        {
+            steps{
+             sh 'dotnet publish'   
+            }
+            
+        }
+    }
+
+    post
+    {
+        always{
+         archiveArtifacts '**'
+            bat 'dotnet webapi/bin/Debug/netcoreapp2.2/webapi.dll'
+            
+        }
+        
+        
     }
 }
