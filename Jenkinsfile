@@ -1,50 +1,55 @@
 pipeline {
-    
-    agent any
-
+     agent any
+     
     parameters{
-        string(name: 'GIT_SOURCE_PATH', defaultValue: "https://github.com/tavisca-spanda/WebApiDemo.git")
-        string(name: 'TEST_PATH', defaultValue: "XUnitTestProject1/WebApiDemoTest.csproj")
-        string(name: 'FILE_SOURCE_PATH', defaultValue: "WebApiDemo.sln")
-        choice(name: 'JOB', choices: ['Build', 'Test'], description: 'Providing Choices' )
+     string(name:'APPLICATION_PATH',defaultValue:'webapi.sln')
+     string(name:'IMAGE_NAME',defaultValue:'sai')  
+     string(name: 'NUGET_REPO', defaultValue: 'https://api.nuget.org/v3/index.json')
+     string(name: 'GIT_REPO_PATH', defaultValue: 'https://github.com/tavisca-vjola/web_api.git')
+     string(name: 'APPLICATION_TEST_PATH', defaultValue: 'webapi/webapi.csproj')
+      string(name: 'IMAGE_NAME', defaultValue: 'sia')
     }
-    stages {
+    
+   
+       stages {
         
-        stage('--build--') {
+        stage('Build') {
             steps {
-                sh "dotnet restore ${FILE_SOURCE_PATH} --source https://api.nuget.org/v3/index.json"
-                sh "dotnet build ${FILE_SOURCE_PATH} -p:Configuration=release -v:n" 
+              
+                powershell(script: 'dotnet build $APPLICATION_PATH -p:Configuration=release -v:n')
+                
+               
             }
         }
-        stage('--test--') {
-
-            when 
-		    { 
-			    expression { params.JOB == 'Test'}
-		    }
+        stage('Test') {
+            
             steps {
-                sh 'dotnet build ${SOLUTION_PATH} -p:Configuration=release -v:n'
-                sh "dotnet test ${TEST_PATH}"
+                powershell(script: 'dotnet test $APPLICATION_TEST_PATH')
             }
         }
-
-        stage('---Publish---')
+        stage('Publish')
         {
             steps{
-             sh 'dotnet publish'   
+            powershell(script: 'dotnet publish $APPLICATION_PATH -c Release -o artifacts')
             }
             
         }
-    }
-
-    post
-    {
-        always{
-         archiveArtifacts '**'
-            sh 'dotnet WebApiDemo/bin/Debug/netcoreapp2.2/WebApiDemo.dll'
-            
+           stage('Archive')
+        {
+            steps
+            {
+             powershell(script: 'compress-archive webapi/artifacts publish.zip -Update')
+                archiveArtifacts artifacts: 'publish.zip' 
+            }
         }
-        
-        
+           stage('deploy') {
+            steps {
+                       
+                       powershell(script: 'docker build -t ${env:IMAGE_NAME} ./')
+                 
+            }
+        }
+           
     }
+    
 }
