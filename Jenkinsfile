@@ -41,7 +41,7 @@ pipeline {
     {
         always{
          archiveArtifacts '**'
-            bat 'dotnet webapi/bin/Debug/netcoreapp2.2/webapi.dll'
+            sh 'dotnet webapi/bin/Debug/netcoreapp2.2/webapi.dll'
             
         }
         
