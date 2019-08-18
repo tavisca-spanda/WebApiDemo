@@ -38,7 +38,7 @@ pipeline {
                  withCredentials([usernamePassword(credentialsId: 'dockerHub', 
             			passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
             			bat "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-            			bat "docker push %DOCKER_REPO_NAME%:%IMAGE_VERSION%"
+            			bat "docker push $DOCKER_REPO_NAME:$IMAGE_VERSION"
                  
             }
         }
