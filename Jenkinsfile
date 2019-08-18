@@ -3,11 +3,7 @@ pipeline {
      
     parameters{
      string(name:'APPLICATION_PATH',defaultValue:'WebApiDemo.sln')
-<<<<<<< HEAD
      string(name:'IMAGE_VERSION',defaultValue:'latest')  
-=======
-     string(name:'IMAGE_NAME',defaultValue:'subhransu')  
->>>>>>> 67dd3e77050bd8ec09f265c2795a78d85550e222
      string(name: 'NUGET_REPO', defaultValue: 'https://api.nuget.org/v3/index.json')
      string(name: 'GIT_REPO_PATH', defaultValue: 'https://github.com/tavisca-spanda/WebApiDemo.git')
      string(name: 'SOLUTION_NAME', defaultValue: 'WebApiDemo')
@@ -32,27 +28,8 @@ pipeline {
                
             }
         }
-<<<<<<< HEAD
+
         
-        
-        
-=======
-        stage('Publish')
-        {
-            steps{
-            powershell(script: 'dotnet publish $APPLICATION_PATH -c Release -o artifacts')
-            }
-            
-        }
-           stage('Archive')
-        {
-            steps
-            {
-             powershell(script: 'compress-archive WebAPiDemo/artifacts publish.zip -Update')
-                archiveArtifacts artifacts: 'publish.zip' 
-            }
-        }
->>>>>>> 67dd3e77050bd8ec09f265c2795a78d85550e222
            stage('deploy') {
             steps {
                        
