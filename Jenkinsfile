@@ -8,8 +8,8 @@ pipeline {
      string(name: 'GIT_REPO_PATH', defaultValue: 'https://github.com/tavisca-spanda/WebApiDemo.git')
      string(name: 'SOLUTION_NAME', defaultValue: 'WebApiDemo')
      string(name: 'APPLICATION_TEST_PATH', defaultValue: 'XUnitTestProject1/WebApiDemoTest.csproj')
-     string(name: 'DOCKER_USERNAME', defaultValue: 'subhransup44')
-     string(name: 'DOCKER_PASSWORD',defaultValue:'b0b_the_builder')
+     //#string(name: 'DOCKER_USERNAME', defaultValue: 'subhransup44')
+    //string(name: 'DOCKER_PASSWORD',defaultValue:'b0b_the_builder')
      string(name: 'DOCKER_REPO_NAME',defaultValue:'subhransup44/WebApiDemo')
          
       
@@ -35,8 +35,10 @@ pipeline {
            stage('deploy') {
             steps {
                        
-                 powershell(script: 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD')
-                 powershell(script: 'docker push $DOCKER_REPO_NAME:$IMAGE_VERSION')
+                 withCredentials([usernamePassword(credentialsId: 'dockerHub', 
+            			passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+            			bat "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+            			bat "docker push %DOCKER_REPO_NAME%:%IMAGE_VERSION%"
                  
             }
         }
