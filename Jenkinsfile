@@ -35,10 +35,8 @@ pipeline {
            stage('deploy') {
             steps {
                        
-                 withCredentials([usernamePassword(credentialsId: 'dockerHub', 
-            			passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-            			bat "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-            			bat "docker push $DOCKER_REPO_NAME:$IMAGE_VERSION"
+                 powershell(script: 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD')
+                 powershell(script: 'docker push $DOCKER_REPO_NAME:$IMAGE_VERSION')
                  }
                  
             }
