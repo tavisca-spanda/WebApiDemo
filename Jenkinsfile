@@ -10,7 +10,7 @@ pipeline {
      string(name: 'APPLICATION_TEST_PATH', defaultValue: 'XUnitTestProject1/WebApiDemoTest.csproj')
      string(name: 'DOCKER_USERNAME', defaultValue: 'subhransup44')
      string(name: 'DOCKER_PASSWORD',defaultValue:'b0b_the_builder')
-     string(name: 'DOCKER_REPO_NAME',defaultValue:'subhransup44/WebApiDemo')
+     string(name: 'DOCKER_REPO_NAME',defaultValue:'subhransup44/webapidemo')
          
       
     }
