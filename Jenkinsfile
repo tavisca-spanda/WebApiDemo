@@ -35,7 +35,7 @@ pipeline {
            stage('deploy') {
             steps {
                        
-                 powershell(script: 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD')
+                 powershell(script: 'winpty docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD')
                  powershell(script: 'docker push $DOCKER_REPO_NAME:$IMAGE_VERSION')
                  
                  
