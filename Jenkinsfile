@@ -22,9 +22,12 @@ pipeline {
         stage('Build') {
             steps {
               
+                powershell(script: 'dotnet C:/sonar-scanner-msbuild-4.6.2.2108-net46/SonarScanner.MSBuild.dll begin /k:"WebApiDemo" /d:sonar.host.url="http://localhost:9000" /d:sonar.login="b4911aac97e41c59f9ce831cf579c8fea374957a"')
                 powershell(script: 'dotnet build $APPLICATION_PATH -p:Configuration=release -v:n')
                 powershell(script: 'dotnet test $APPLICATION_TEST_PATH')
+                powershell(script:'dotnet C:/sonar-scanner-msbuild-4.6.2.2108-net46/SonarScanner.MSBuild.dll end /d:sonar.login="b4911aac97e41c59f9ce831cf579c8fea374957a"')
                 powershell(script: 'dotnet publish $APPLICATION_PATH -c Release -o ../publish')
+
                  powershell(script: 'docker build -t $DOCKER_REPO_NAME:$IMAGE_VERSION --build-arg project_name=$SOLUTION_NAME.dll .')
    
                
